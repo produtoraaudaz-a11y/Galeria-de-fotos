@@ -1,0 +1,85 @@
+<!doctype html>
+<html lang="pt-BR">
+<head>
+  <meta charset="utf-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1, viewport-fit=cover" />
+  <meta name="theme-color" content="#111214" />
+  <meta name="robots" content="noindex,nofollow" />
+  <meta name="description" content="Galeria corporativa Colares & Estácio — entrega AUDAZ." />
+  <title>AUDAZ × Colares & Estácio — Galeria Corporativa</title>
+  <link rel="preconnect" href="https://drive.google.com" />
+  <link rel="preconnect" href="https://github.com" />
+  <link rel="stylesheet" href="./styles.css" />
+</head>
+<body>
+  <header class="site-header" id="siteHeader">
+    <a class="brand-lockup" href="#top" aria-label="Voltar ao início">
+      <span class="brand-lockup__audaz">AUDAZ</span>
+      <span class="brand-lockup__cross" aria-hidden="true">×</span>
+      <span class="brand-lockup__client">COLARES &amp; ESTÁCIO</span>
+    </a>
+    <a class="header-action" href="#galeria">Ver fotos</a>
+  </header>
+
+  <main id="top">
+    <section class="hero" aria-labelledby="heroTitle">
+      <div class="hero__copy reveal-on-load">
+        <p class="eyebrow">Galeria corporativa</p>
+        <h1 id="heroTitle">Colares &amp;<br />Estácio</h1>
+        <div class="hero__actions">
+          <a class="button button--primary" href="#galeria">Ver galeria</a>
+          <a class="button button--ghost js-download-all" href="https://github.com/produtoraaudaz-a11y/Galeria-de-fotos/releases/latest/download/Colares-Estacio_Fotos-Corporativas_AUDAZ.zip">Baixar galeria</a>
+        </div>
+      </div>
+
+      <div class="hero-mosaic" id="heroMosaic" aria-label="Destaques da galeria"></div>
+    </section>
+
+    <section class="gallery-section" id="galeria" aria-labelledby="galleryTitle">
+      <div class="gallery-heading reveal">
+        <h2 id="galleryTitle">Galeria completa</h2>
+        <div class="gallery-actions">
+          <button class="text-button" id="selectionToggle" type="button" aria-pressed="false">Selecionar fotos</button>
+          <a class="button button--dark js-download-all" href="https://github.com/produtoraaudaz-a11y/Galeria-de-fotos/releases/latest/download/Colares-Estacio_Fotos-Corporativas_AUDAZ.zip">Baixar galeria</a>
+        </div>
+      </div>
+
+      <div class="gallery" id="gallery" aria-live="polite"></div>
+    </section>
+  </main>
+
+  <footer class="site-footer">
+    <span>AUDAZ</span>
+    <span>Entrega fotográfica</span>
+  </footer>
+
+  <div class="selection-bar" id="selectionBar" aria-hidden="true">
+    <div class="selection-bar__status"><strong id="selectionCount">0</strong><span>selecionadas</span></div>
+    <div class="selection-bar__actions">
+      <button type="button" class="selection-clear" id="selectionClear">Limpar</button>
+      <button type="button" class="selection-download" id="selectionDownload">Baixar selecionadas</button>
+    </div>
+  </div>
+
+  <div class="lightbox" id="lightbox" role="dialog" aria-modal="true" aria-label="Visualização ampliada" aria-hidden="true">
+    <button class="lightbox__close icon-button" id="lightboxClose" type="button" aria-label="Fechar visualização">×</button>
+    <button class="lightbox__nav lightbox__nav--prev icon-button" id="lightboxPrev" type="button" aria-label="Foto anterior">←</button>
+    <figure class="lightbox__stage">
+      <img id="lightboxImage" alt="" />
+      <figcaption class="lightbox__caption">
+        <span id="lightboxName"></span>
+        <a id="lightboxDownload" class="lightbox__download" href="#">Baixar original</a>
+      </figcaption>
+    </figure>
+    <button class="lightbox__nav lightbox__nav--next icon-button" id="lightboxNext" type="button" aria-label="Próxima foto">→</button>
+  </div>
+
+  <div class="toast" id="toast" role="status" aria-live="polite"></div>
+
+  <noscript>
+    <div class="noscript">Ative o JavaScript para visualizar a galeria.</div>
+  </noscript>
+
+  <script src="./app.js" defer></script>
+</body>
+</html>
