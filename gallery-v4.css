@@ -1,80 +1,85 @@
-/* AUDAZ Gallery v4 — masonry fluido + motion de interface */
+/* AUDAZ Gallery v6 — Masonry Pinterest real + motion suave */
 
 /*
-  A galeria deixa de depender de colunas CSS e passa a usar uma malha masonry
-  calculada pelo JS. A imagem mantém sempre sua proporção natural: nenhuma foto
-  da galeria completa usa altura fixa ou object-fit: cover.
+  Masonry por colunas: cada fotografia preserva sua proporção original e
+  ocupa apenas a altura de que precisa. Não há linhas fixas, cards quadrados
+  nem cálculo de grid-row.
 */
 .gallery {
-  columns: initial !important;
-  display: grid;
-  grid-template-columns: repeat(4, minmax(0, 1fr));
-  grid-auto-rows: 8px;
-  grid-auto-flow: dense;
-  gap: 9px;
-  align-items: start;
+  display: block !important;
+  columns: 4;
+  column-gap: 12px;
+  width: 100%;
 }
 
 .photo-card {
+  display: inline-block;
   width: 100%;
   min-width: 0;
-  min-height: 150px;
-  margin: 0 !important;
-  break-inside: auto;
-  align-self: start;
-  will-change: transform, opacity;
+  min-height: 0 !important;
+  margin: 0 0 12px !important;
+  break-inside: avoid;
+  -webkit-column-break-inside: avoid;
+  page-break-inside: avoid;
+  vertical-align: top;
+  overflow: hidden;
+  border-radius: 11px;
+  background: #e4e0d8;
+  will-change: opacity, transform;
   transform-origin: center center;
+  box-shadow: 0 0 0 rgba(17,18,20,0);
   transition:
     box-shadow .38s cubic-bezier(.2,.8,.2,1),
     filter .38s ease;
-}
-
-/* Destaques editoriais: poucos cards ganham mais área, sem recortar a imagem. */
-.photo-card:nth-child(11n + 1) {
-  grid-column: span 2;
 }
 
 .photo-card img {
   width: 100%;
   height: auto !important;
   max-height: none !important;
+  display: block;
   object-fit: contain !important;
   object-position: center center !important;
   transform: scale(1);
   transform-origin: center center;
   transition:
-    transform .7s cubic-bezier(.16,1,.3,1),
-    filter .45s ease;
+    transform .72s cubic-bezier(.16,1,.3,1),
+    filter .42s ease;
 }
 
+/* Entrada progressiva conforme a rolagem. */
 .photo-card.is-visible {
-  animation: galleryCardIn .72s cubic-bezier(.16,1,.3,1) both;
+  animation: galleryCardIn .74s cubic-bezier(.16,1,.3,1) both;
   animation-delay: var(--stagger, 0ms);
 }
 
-.photo-card.is-visible:hover {
-  z-index: 4;
-  box-shadow: 0 22px 54px rgba(17,18,20,.16);
-}
+/* Hover premium: a moldura não cresce; só a fotografia aproxima suavemente. */
+@media (hover: hover) and (pointer: fine) {
+  .photo-card.is-visible:hover {
+    z-index: 4;
+    box-shadow: 0 20px 48px rgba(17,18,20,.15);
+  }
 
-.photo-card.is-visible:hover img {
-  transform: scale(1.028);
-  filter: brightness(1.035) saturate(1.025);
+  .photo-card.is-visible:hover img {
+    transform: scale(1.045);
+    filter: brightness(1.035) saturate(1.025);
+  }
 }
 
 .photo-card::after {
-  background: linear-gradient(to top, rgba(8,9,10,.34), transparent 46%);
+  border-radius: inherit;
+  background: linear-gradient(to top, rgba(8,9,10,.32), transparent 44%);
 }
 
 .photo-card:hover::after {
-  opacity: .68;
+  opacity: .62;
 }
 
 @keyframes galleryCardIn {
   0% {
     opacity: 0;
-    transform: translateY(34px) scale(.985);
-    filter: blur(2px);
+    transform: translateY(30px) scale(.988);
+    filter: blur(1.5px);
   }
   100% {
     opacity: 1;
@@ -83,7 +88,7 @@
   }
 }
 
-/* Morph visual entre a miniatura e o lightbox. */
+/* Morph visual entre miniatura e lightbox. */
 .lightbox {
   background: rgba(9,10,11,.975);
   transition:
@@ -114,36 +119,35 @@
 
 @media (max-width: 1180px) {
   .gallery {
-    grid-template-columns: repeat(3, minmax(0, 1fr));
-    gap: 8px;
+    columns: 3;
+    column-gap: 10px;
+  }
+
+  .photo-card {
+    margin-bottom: 10px !important;
+    border-radius: 10px;
   }
 }
 
 @media (max-width: 760px) {
   .gallery {
-    grid-template-columns: repeat(2, minmax(0, 1fr));
-    grid-auto-rows: 6px;
-    gap: 5px;
-  }
-
-  .photo-card:nth-child(11n + 1) {
-    grid-column: span 2;
+    columns: 2;
+    column-gap: 7px;
   }
 
   .photo-card {
-    min-height: 110px;
-  }
-
-  /* Em touch não existe hover útil; mantém a imagem limpa e estável. */
-  .photo-card.is-visible:hover img {
-    transform: none;
-    filter: none;
+    margin-bottom: 7px !important;
+    border-radius: 8px;
   }
 }
 
-@media (max-width: 420px) {
+@media (max-width: 390px) {
   .gallery {
-    gap: 4px;
+    column-gap: 6px;
+  }
+
+  .photo-card {
+    margin-bottom: 6px !important;
   }
 }
 
@@ -153,6 +157,10 @@
     opacity: 1;
     transform: none;
     filter: none;
+  }
+
+  .photo-card img {
+    transition: none !important;
   }
 
   .audaz-lightbox-morph {
