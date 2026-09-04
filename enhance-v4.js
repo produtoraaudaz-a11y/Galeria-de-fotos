@@ -6,45 +6,11 @@
 
   const prefersReducedMotion = window.matchMedia('(prefers-reduced-motion: reduce)');
   const cards = () => [...gallery.querySelectorAll('.photo-card')];
-  let resizeTimer = 0;
 
-  function masonryMetrics() {
-    const styles = getComputedStyle(gallery);
-    const row = parseFloat(styles.gridAutoRows) || 8;
-    const gap = parseFloat(styles.rowGap) || 0;
-    return { row, gap };
-  }
-
-  function sizeCard(card) {
-    const img = card.querySelector('img');
-    if (!img) return;
-
-    const { row, gap } = masonryMetrics();
-    card.style.gridRowEnd = 'auto';
-
-    const height = Math.max(img.getBoundingClientRect().height, card.scrollHeight, 1);
-    const span = Math.max(1, Math.ceil((height + gap) / (row + gap)));
-    const next = `span ${span}`;
-
-    if (card.style.gridRowEnd !== next) card.style.gridRowEnd = next;
-  }
-
-  function layoutAll() {
-    cards().forEach(sizeCard);
-  }
-
-  function prepareMasonry() {
+  function prepareMotion() {
     cards().forEach((card, index) => {
-      card.style.setProperty('--stagger', `${(index % 7) * 48}ms`);
-      const img = card.querySelector('img');
-      if (!img) return;
-
-      const update = () => requestAnimationFrame(() => sizeCard(card));
-      if (img.complete && img.naturalWidth) update();
-      else img.addEventListener('load', update, { once: true });
+      card.style.setProperty('--stagger', `${(index % 8) * 52}ms`);
     });
-
-    requestAnimationFrame(layoutAll);
   }
 
   function targetContainRect(img) {
@@ -135,23 +101,11 @@
       const img = source?.querySelector('img');
       if (!source || !img) return;
 
-      // O listener original abre o lightbox no mesmo clique. O clone fica acima
-      // dele por alguns milissegundos e cria a continuidade visual grid → tela cheia.
       requestAnimationFrame(() => morphIntoLightbox(img));
     });
   }
 
-  prepareMasonry();
+  prepareMotion();
   bindMorph(gallery);
   bindMorph(heroMosaic);
-
-  window.addEventListener('resize', () => {
-    clearTimeout(resizeTimer);
-    resizeTimer = window.setTimeout(layoutAll, 120);
-  }, { passive: true });
-
-  window.addEventListener('load', () => {
-    window.setTimeout(layoutAll, 80);
-    window.setTimeout(layoutAll, 500);
-  }, { once: true });
 })();
