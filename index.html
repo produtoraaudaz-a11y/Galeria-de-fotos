@@ -12,10 +12,7 @@
   <title>AUDAZ × Colares & Estácio — Galeria Corporativa</title>
   <link rel="preconnect" href="https://drive.google.com" />
   <link rel="preconnect" href="https://github.com" />
-  <link rel="stylesheet" href="./styles.css?v=8" />
-  <link rel="stylesheet" href="./responsive-fix.css?v=8" />
-  <link rel="stylesheet" href="./gallery-v4.css?v=8" />
-  <link rel="stylesheet" href="./gallery-v7.css?v=8" />
+  <link rel="stylesheet" href="./styles.css?reset=1" />
 </head>
 <body>
   <header class="site-header" id="siteHeader">
@@ -29,13 +26,13 @@
 
   <main id="top">
     <section class="hero" aria-labelledby="heroTitle">
-      <div class="hero__copy reveal-on-load">
-        <p class="eyebrow hero__client">Colares &amp; Estácio · Galeria corporativa</p>
+      <div class="hero__copy">
+        <p class="hero__client">Colares &amp; Estácio · Entrega fotográfica</p>
         <h1 id="heroTitle">Sua imagem.<br />Pronta para usar.</h1>
-        <p class="hero__support">Visualize. Selecione. Baixe.</p>
+        <p class="hero__support">Visualize, selecione e baixe.</p>
         <div class="hero__actions">
           <a class="button button--primary" href="#galeria">Ver galeria</a>
-          <a class="button button--ghost js-download-all" href="https://github.com/produtoraaudaz-a11y/Galeria-de-fotos/releases/latest/download/Colares-Estacio_Fotos-Corporativas_AUDAZ.zip">Baixar galeria</a>
+          <a class="button button--ghost js-download-all" href="#">Baixar galeria</a>
         </div>
       </div>
 
@@ -47,10 +44,9 @@
         <h2 id="galleryTitle">Galeria completa</h2>
         <div class="gallery-actions">
           <button class="text-button" id="selectionToggle" type="button" aria-pressed="false">Selecionar fotos</button>
-          <a class="button button--dark js-download-all" href="https://github.com/produtoraaudaz-a11y/Galeria-de-fotos/releases/latest/download/Colares-Estacio_Fotos-Corporativas_AUDAZ.zip">Baixar galeria</a>
+          <a class="button button--dark js-download-all" href="#">Baixar galeria</a>
         </div>
       </div>
-
       <div class="gallery" id="gallery" aria-live="polite"></div>
     </section>
   </main>
@@ -82,13 +78,7 @@
   </div>
 
   <div class="toast" id="toast" role="status" aria-live="polite"></div>
-
-  <noscript>
-    <div class="noscript">Ative o JavaScript para visualizar a galeria.</div>
-  </noscript>
-
-  <script src="./app.js?v=8" defer></script>
-  <script src="./enhance-v4.js?v=8" defer></script>
-  <script src="./gallery-v7.js?v=8" defer></script>
+  <noscript><div class="noscript">Ative o JavaScript para visualizar a galeria.</div></noscript>
+  <script src="./app.js?reset=1" defer></script>
 </body>
 </html>
