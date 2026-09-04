@@ -124,8 +124,36 @@ function photoCardMarkup(photo, index) {
     </figure>`;
 }
 
+function galleryPresentationEntries() {
+  const indexed = photos.map((photo, index) => ({ photo, index }));
+  const heroEntries = heroPhotoIds
+    .map(id => indexed.find(entry => entry.photo.id === id))
+    .filter(Boolean);
+
+  const heroIds = new Set(heroEntries.map(entry => entry.photo.id));
+  const remaining = indexed.filter(entry => !heroIds.has(entry.photo.id));
+
+  // Intercala partes distantes do ensaio para evitar poses consecutivas lado a lado.
+  const groups = 5;
+  const chunkSize = Math.ceil(remaining.length / groups);
+  const chunks = Array.from({ length: groups }, (_, group) =>
+    remaining.slice(group * chunkSize, (group + 1) * chunkSize)
+  );
+
+  const interleaved = [];
+  for (let row = 0; row < chunkSize; row += 1) {
+    for (const chunk of chunks) {
+      if (chunk[row]) interleaved.push(chunk[row]);
+    }
+  }
+
+  return [...heroEntries, ...interleaved];
+}
+
 function renderGallery() {
-  gallery.innerHTML = photos.map(photoCardMarkup).join('');
+  gallery.innerHTML = galleryPresentationEntries()
+    .map(({ photo, index }) => photoCardMarkup(photo, index))
+    .join('');
 
   $$('.photo-card', gallery).forEach(card => {
     const index = Number(card.dataset.index);
