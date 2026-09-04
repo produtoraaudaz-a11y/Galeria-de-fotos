@@ -48,9 +48,8 @@ const galleryOrder = [0,19,30,8,25,4,34,12,22,39,6,28,16,36,10,32,2,24,14,40,18,
 const displayPhotos = galleryOrder.map(index => photos[index]);
 
 const heroPhotoIds = [
-  '1YIG7heoS_N5u3oRpdAtrMyEGa7VRDMU7',
-  '1Z6detQgtWCU6X0AWXHX4kP-G39KzvCqM',
-  '1sLvfq88PrwX4KLFCOWs7qC4OK-Ajs8bR'
+  '1vtHQZHb5DfiTL6Sk8f4EsRKIxySVMy9D',
+  '1Z6detQgtWCU6X0AWXHX4kP-G39KzvCqM'
 ];
 
 const state = { selectionMode: false, selected: new Set(), currentIndex: 0, lastFocused: null };
@@ -94,8 +93,8 @@ function heroButton(photo, index, modifier = '') {
 }
 
 function renderHero() {
-  const [lead, second, third] = heroPhotoIds.map(photoById);
-  heroMosaic.innerHTML = `${heroButton(lead, 0, 'hero-card--lead')}<div class="hero-stack">${heroButton(second, 1)}${heroButton(third, 2)}</div>`;
+  const [lead, group] = heroPhotoIds.map(photoById);
+  heroMosaic.innerHTML = `${heroButton(lead, 0, 'hero-card--lead')}${heroButton(group, 1, 'hero-card--group')}`;
   $$('.hero-card', heroMosaic).forEach(card => card.addEventListener('click', () => openLightbox(displayIndexById(card.dataset.photoId), card)));
 }
 
