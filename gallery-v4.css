@@ -1,0 +1,161 @@
+/* AUDAZ Gallery v4 — masonry fluido + motion de interface */
+
+/*
+  A galeria deixa de depender de colunas CSS e passa a usar uma malha masonry
+  calculada pelo JS. A imagem mantém sempre sua proporção natural: nenhuma foto
+  da galeria completa usa altura fixa ou object-fit: cover.
+*/
+.gallery {
+  columns: initial !important;
+  display: grid;
+  grid-template-columns: repeat(4, minmax(0, 1fr));
+  grid-auto-rows: 8px;
+  grid-auto-flow: dense;
+  gap: 9px;
+  align-items: start;
+}
+
+.photo-card {
+  width: 100%;
+  min-width: 0;
+  min-height: 150px;
+  margin: 0 !important;
+  break-inside: auto;
+  align-self: start;
+  will-change: transform, opacity;
+  transform-origin: center center;
+  transition:
+    box-shadow .38s cubic-bezier(.2,.8,.2,1),
+    filter .38s ease;
+}
+
+/* Destaques editoriais: poucos cards ganham mais área, sem recortar a imagem. */
+.photo-card:nth-child(11n + 1) {
+  grid-column: span 2;
+}
+
+.photo-card img {
+  width: 100%;
+  height: auto !important;
+  max-height: none !important;
+  object-fit: contain !important;
+  object-position: center center !important;
+  transform: scale(1);
+  transform-origin: center center;
+  transition:
+    transform .7s cubic-bezier(.16,1,.3,1),
+    filter .45s ease;
+}
+
+.photo-card.is-visible {
+  animation: galleryCardIn .72s cubic-bezier(.16,1,.3,1) both;
+  animation-delay: var(--stagger, 0ms);
+}
+
+.photo-card.is-visible:hover {
+  z-index: 4;
+  box-shadow: 0 22px 54px rgba(17,18,20,.16);
+}
+
+.photo-card.is-visible:hover img {
+  transform: scale(1.028);
+  filter: brightness(1.035) saturate(1.025);
+}
+
+.photo-card::after {
+  background: linear-gradient(to top, rgba(8,9,10,.34), transparent 46%);
+}
+
+.photo-card:hover::after {
+  opacity: .68;
+}
+
+@keyframes galleryCardIn {
+  0% {
+    opacity: 0;
+    transform: translateY(34px) scale(.985);
+    filter: blur(2px);
+  }
+  100% {
+    opacity: 1;
+    transform: translateY(0) scale(1);
+    filter: blur(0);
+  }
+}
+
+/* Morph visual entre a miniatura e o lightbox. */
+.lightbox {
+  background: rgba(9,10,11,.975);
+  transition:
+    opacity .42s cubic-bezier(.2,.8,.2,1),
+    visibility .42s ease;
+}
+
+.lightbox__stage img {
+  transition:
+    transform .52s cubic-bezier(.16,1,.3,1),
+    opacity .34s ease;
+}
+
+.lightbox.is-morphing .lightbox__stage img {
+  opacity: 0 !important;
+}
+
+.audaz-lightbox-morph {
+  position: fixed;
+  z-index: 160;
+  margin: 0;
+  pointer-events: none;
+  object-fit: cover;
+  transform: translateZ(0);
+  box-shadow: 0 24px 80px rgba(0,0,0,.28);
+  will-change: left, top, width, height, border-radius;
+}
+
+@media (max-width: 1180px) {
+  .gallery {
+    grid-template-columns: repeat(3, minmax(0, 1fr));
+    gap: 8px;
+  }
+}
+
+@media (max-width: 760px) {
+  .gallery {
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-auto-rows: 6px;
+    gap: 5px;
+  }
+
+  .photo-card:nth-child(11n + 1) {
+    grid-column: span 2;
+  }
+
+  .photo-card {
+    min-height: 110px;
+  }
+
+  /* Em touch não existe hover útil; mantém a imagem limpa e estável. */
+  .photo-card.is-visible:hover img {
+    transform: none;
+    filter: none;
+  }
+}
+
+@media (max-width: 420px) {
+  .gallery {
+    gap: 4px;
+  }
+}
+
+@media (prefers-reduced-motion: reduce) {
+  .photo-card.is-visible {
+    animation: none !important;
+    opacity: 1;
+    transform: none;
+    filter: none;
+  }
+
+  .audaz-lightbox-morph {
+    display: none !important;
+  }
+}
