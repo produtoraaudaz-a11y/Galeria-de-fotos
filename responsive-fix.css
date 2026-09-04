@@ -71,7 +71,6 @@
     transform: scale(1.015);
   }
 
-  /* prioridade visual: cabeça/rosto sempre dentro do enquadramento */
   .hero-card:nth-child(1) img { object-position: 50% 32%; }
   .hero-card:nth-child(2) img { object-position: 50% 25%; }
   .hero-card:nth-child(3) img { object-position: 50% 28%; }
@@ -83,7 +82,6 @@
   }
 }
 
-/* notebooks menores */
 @media (min-width: 981px) and (max-width: 1280px) {
   .hero {
     grid-template-columns: minmax(350px, .82fr) minmax(520px, 1.18fr);
@@ -104,7 +102,7 @@
   }
 }
 
-/* tablet */
+/* Tablet mantém cinco destaques, mas preserva a região superior dos retratos. */
 @media (max-width: 980px) {
   .hero__client {
     margin-bottom: 18px;
@@ -130,6 +128,7 @@
       "lead secondary"
       "lead tertiary"
       "quaternary quinary";
+    gap: 7px;
   }
 
   .hero-card:nth-child(1) { grid-area: lead; }
@@ -140,10 +139,23 @@
 
   .hero-card img {
     object-fit: cover;
-    object-position: 50% 29%;
+    object-position: 50% 22%;
+    transform: none;
   }
+
+  .hero-card:nth-child(1) img { object-position: 50% 20%; }
+  .hero-card:nth-child(2) img { object-position: 50% 17%; }
+  .hero-card:nth-child(3) img { object-position: 50% 19%; }
+  .hero-card:nth-child(4) img { object-position: 50% 18%; }
+  .hero-card:nth-child(5) img { object-position: 50% 20%; }
 }
 
+/*
+  Mobile: composição própria em vez de miniaturizar o desktop.
+  Só três destaques: uma imagem principal larga + duas secundárias.
+  Isso evita duas linhas visualmente repetidas e dá área suficiente para
+  preservar cabeça/rosto sem esmagar a fotografia.
+*/
 @media (max-width: 640px) {
   .hero__client {
     margin-bottom: 14px;
@@ -168,33 +180,52 @@
   }
 
   .hero-mosaic {
-    height: min(66svh, 560px);
-    min-height: 460px;
-    grid-template-columns: 1.08fr .92fr;
-    grid-template-rows: 1fr 1fr .86fr;
+    height: auto;
+    min-height: 0;
+    display: grid;
+    grid-template-columns: repeat(2, minmax(0, 1fr));
+    grid-template-rows: auto auto;
     grid-template-areas:
-      "lead secondary"
-      "lead tertiary"
-      "quaternary quinary";
-    gap: 5px;
+      "lead lead"
+      "secondary tertiary";
+    gap: 8px;
   }
 
-  .hero-card:nth-child(1),
-  .hero-card:nth-child(2),
-  .hero-card:nth-child(3),
+  .hero-card {
+    min-width: 0;
+    min-height: 0;
+    border-radius: 10px;
+  }
+
+  .hero-card:nth-child(1) {
+    grid-area: lead;
+    aspect-ratio: 4 / 3;
+  }
+
+  .hero-card:nth-child(2) {
+    grid-area: secondary;
+    aspect-ratio: 4 / 5;
+  }
+
+  .hero-card:nth-child(3) {
+    grid-area: tertiary;
+    aspect-ratio: 4 / 5;
+  }
+
   .hero-card:nth-child(4),
   .hero-card:nth-child(5) {
-    grid-column: auto;
-    grid-row: auto;
+    display: none;
   }
-
-  .hero-card:nth-child(1) { grid-area: lead; }
-  .hero-card:nth-child(2) { grid-area: secondary; }
-  .hero-card:nth-child(3) { grid-area: tertiary; }
-  .hero-card:nth-child(4) { grid-area: quaternary; }
-  .hero-card:nth-child(5) { grid-area: quinary; }
 
   .hero-card img {
-    object-position: 50% 28%;
+    width: 100%;
+    height: 100%;
+    object-fit: cover;
+    transform: none !important;
   }
+
+  /* Enquadramento manual face-safe para os três destaques mobile. */
+  .hero-card:nth-child(1) img { object-position: 50% 14%; }
+  .hero-card:nth-child(2) img { object-position: 50% 12%; }
+  .hero-card:nth-child(3) img { object-position: 50% 15%; }
 }
